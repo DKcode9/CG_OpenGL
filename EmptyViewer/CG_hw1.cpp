@@ -138,9 +138,9 @@ void render() {
     vec3 wcolor = vec3(1.0f, 1.0f, 1.0f); // sphere color
     vec3 pcolor = vec3(0.5f, 0.5f, 0.5f); // plane color
 
-    Sphere sphere1(vec3(-4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere define
-    Sphere sphere2(vec3(0.0f, 0.0f, -7.0f), 2.0f, wcolor); // sphere define
-    Sphere sphere3(vec3(4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere define
+    Sphere sphere1(vec3(-4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere1 define
+    Sphere sphere2(vec3(0.0f, 0.0f, -7.0f), 2.0f, wcolor); // sphere2 define
+    Sphere sphere3(vec3(4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere3 define
     Plane plane(vec3(0.0f, 1.0f, 0.0f), -2.0f, pcolor); // plane define
 
     Camera camera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f));
