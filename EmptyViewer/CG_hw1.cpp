@@ -68,6 +68,26 @@ public:
     }
 };
 
+class Plane : public Surface {
+public:
+    vec3 normal;
+    float d;
+
+    Plane(const vec3& n, float d, const vec3& col)
+        : Surface(col), normal(normalize(n)), d(d) {
+    }
+
+    bool intersect(const Ray& ray, float& t, float tMin, float tMax) const override {
+        float denom = dot(normal, ray.direction);
+        if (abs(denom) > 1e-6) { // Ensure the ray is not parallel to the plane
+            t = (d - dot(normal, ray.origin)) / denom;
+            return (t >= tMin && t <= tMax);
+        }
+        return false;
+    }
+};
+
+
 class Camera {
 public:
     vec3 position, direction;
@@ -113,14 +133,18 @@ public:
     }
 };
 
-void render()
-{
+void render() {
     OutputImage.resize(Width * Height * 3, 1.0f);
-    vec3 wcolor = vec3(1.0f, 1.0f, 1.0f); //sphere color
+    vec3 wcolor = vec3(1.0f, 1.0f, 1.0f); // sphere color
+    vec3 pcolor = vec3(0.5f, 0.5f, 0.5f); // plane color
 
-    Sphere sphere(vec3(0.0f, 0.0f, -4.0f), 1.0f, wcolor); //sphere define
+    Sphere sphere1(vec3(-4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere define
+    Sphere sphere2(vec3(0.0f, 0.0f, -7.0f), 2.0f, wcolor); // sphere define
+    Sphere sphere3(vec3(4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere define
+    Plane plane(vec3(0.0f, 1.0f, 0.0f), -2.0f, pcolor); // plane define
+
     Camera camera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f));
-    std::vector<Surface*> surfaces = { &sphere };
+    std::vector<Surface*> surfaces = { &sphere1, &sphere2, &sphere3, &plane };
     Scene scene(surfaces, camera);
     Image image;
 
