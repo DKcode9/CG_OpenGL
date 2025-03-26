@@ -96,7 +96,7 @@ public:
     }
 
     Ray getRay(float x, float y) {
-        return Ray(position, normalize(direction + vec3(x, y, 0)));
+        return Ray(position, normalize(vec3(x, y, 0.0f)+vec3(0,0,-0.1f))); // image plane is at -0.1
     }
 };
 
@@ -136,12 +136,11 @@ public:
 void render() {
     OutputImage.resize(Width * Height * 3, 1.0f);
     vec3 wcolor = vec3(1.0f, 1.0f, 1.0f); // sphere color
-    vec3 pcolor = vec3(0.5f, 0.5f, 0.5f); // plane color
 
     Sphere sphere1(vec3(-4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere1 define
     Sphere sphere2(vec3(0.0f, 0.0f, -7.0f), 2.0f, wcolor); // sphere2 define
     Sphere sphere3(vec3(4.0f, 0.0f, -7.0f), 1.0f, wcolor); // sphere3 define
-    Plane plane(vec3(0.0f, 1.0f, 0.0f), -2.0f, pcolor); // plane define
+    Plane plane(vec3(0.0f, 1.0f, 0.0f), -2.0f, wcolor); // plane define
 
     Camera camera(vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, -1.0f));
     std::vector<Surface*> surfaces = { &sphere1, &sphere2, &sphere3, &plane };
@@ -150,8 +149,8 @@ void render() {
 
     for (int iy = 0; iy < Height; ++iy) {
         for (int ix = 0; ix < Width; ++ix) {
-            float x = (2.0f * ix) / Width - 1.0f;
-            float y = (2.0f * iy) / Height - 1.0f;
+            float x = (0.2f * (ix + 0.5f)) / Width - 0.1f;
+            float y = (0.2f * (iy + 0.5f)) / Height - 0.1f;
             Ray ray = scene.camera.getRay(x, y);
             vec3 color = scene.trace(ray, 0.0f, FLT_MAX);
             image.set(ix, iy, color);
